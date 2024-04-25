@@ -1,5 +1,6 @@
 import 'dart:developer'; // Geliştirici araçları için kullanılan Dart kütüphanesi.
 
+import 'package:e_commerce/widgets/products/heart_btn.dart';
 import 'package:e_commerce/widgets/subtitle_text.dart'; // Alt başlık metnini gösteren bileşen dosyası.
 import 'package:e_commerce/widgets/title_text.dart'; // Başlık metnini gösteren bileşen dosyası.
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart'; // Görsel için animasyonlu yükleme efektleri sağlayan paket.
@@ -51,12 +52,9 @@ class _ProductWidgetState extends State<ProductWidget> {
                         fontSize: 18, // Başlık metni boyutu.
                       )),
                   Flexible(
-                      flex: 2,
-                      child: IconButton(
-                        onPressed: () {},
-                        icon: const Icon(
-                            IconlyLight.heart), // Kalp simgesi ikonu.
-                      ))
+                    flex: 2,
+                    child: HeartButtonWidget(),
+                  )
                 ],
               ),
             ),

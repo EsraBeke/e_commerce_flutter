@@ -33,9 +33,7 @@ class EmptyBagWidget extends StatelessWidget {
               height: 20,
             ),
             const TitleTextWidget(
-                label: "Whooops",
-                fontSize: 40,
-                color: Colors.red), // Başlık metni.
+                label: "", fontSize: 40, color: Colors.red), // Başlık metni.
             const SizedBox(
               height: 20,
             ),

@@ -1,4 +1,5 @@
 import 'package:e_commerce/screens/cart/quantity_btm_sheet.dart';
+import 'package:e_commerce/widgets/products/heart_btn.dart';
 import 'package:e_commerce/widgets/subtitle_text.dart';
 import 'package:e_commerce/widgets/title_text.dart';
 import 'package:flutter/material.dart';
@@ -45,12 +46,11 @@ class CardWidget extends StatelessWidget {
                           children: [
                             IconButton(
                                 onPressed: () {},
-                                icon: const Icon(Icons.clear,
-                                    color: Colors.red)), // Silme ikonu.
-                            IconButton(
-                                onPressed: () {},
-                                icon: const Icon(
-                                    IconlyLight.heart)) // Kalp ikonu.
+                                icon:
+                                    const Icon(Icons.clear, color: Colors.red)),
+
+                            HeartButtonWidget(),
+                            // Kalp ikonu.
                             //kalpli buton
                           ],
                         )

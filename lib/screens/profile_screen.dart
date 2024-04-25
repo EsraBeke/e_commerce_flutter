@@ -1,4 +1,7 @@
+import 'package:e_commerce/screens/init_screen/viewed_recently.dart';
+import 'package:e_commerce/screens/init_screen/wishList.dart';
 import 'package:e_commerce/services/assets_manager.dart';
+import 'package:e_commerce/services/myapp_functions.dart';
 import 'package:e_commerce/widgets/app_name_text.dart';
 import 'package:e_commerce/widgets/subtitle_text.dart';
 import 'package:e_commerce/widgets/title_text.dart';
@@ -112,11 +115,16 @@ class ProfileScreen extends StatelessWidget {
                 CustomListTile(
                     imagePath: 'images/bag/1.png',
                     text: "Favoriler",
-                    function: () {}),
+                    function: () {
+                      Navigator.pushNamed(context, WishlistScreen.routName);
+                    }),
                 CustomListTile(
                     imagePath: 'images/profile/clock.png',
                     text: "Son Görüntülenenler",
-                    function: () {}),
+                    function: () {
+                      Navigator.pushNamed(
+                          context, ViewedRecentlyScreen.routName);
+                    }),
                 CustomListTile(
                     imagePath: 'images/profile/location.png',
                     text: "Adres",
@@ -147,7 +155,13 @@ class ProfileScreen extends StatelessWidget {
                     backgroundColor: Colors.red,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30.0))),
-                onPressed: () {},
+                onPressed: () async {
+                  await MyAppFunctions.showErrorOrWaningDialog(
+                      context: context,
+                      subtitle: "Emin misin ? ",
+                      fct: () {},
+                      isError: false);
+                },
                 icon: const Icon(Icons.login),
                 label: const Text("Login")),
           )

@@ -1,7 +1,7 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:e_commerce/constans/app_constans.dart';
 import 'package:e_commerce/providers/theme_provider.dart';
-import 'package:e_commerce/services/assets_manager.dart';
+
 import 'package:e_commerce/widgets/app_name_text.dart';
 import 'package:e_commerce/widgets/products/category_roundend_widget.dart';
 import 'package:e_commerce/widgets/products/product_widget.dart';
@@ -25,14 +25,11 @@ class HomeScreen extends StatelessWidget {
     Size size = MediaQuery.of(context).size; // Ekran boyutunu alır.
 
     return Scaffold(
-        
         appBar: AppBar(
-          
           leading: Padding(
             // Sol taraftaki bileşenin kenar boşluklarını ayarlar.
             padding: const EdgeInsets.all(8.0),
-            child: Image.asset(
-                'images/bag/card.png'),
+            child: Image.asset('images/bag/card.png'),
           ),
           title: const AppNameTextWidget(
               fontSize: 20), // Uygulama adını gösteren metin bileşeni.

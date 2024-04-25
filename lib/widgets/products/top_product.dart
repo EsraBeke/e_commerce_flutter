@@ -1,6 +1,7 @@
 import 'dart:developer'; // Geliştirici araçları için kullanılan Dart kütüphanesi.
 
 import 'package:e_commerce/constans/app_constans.dart'; // Uygulama sabitleri dosyası.
+import 'package:e_commerce/widgets/products/heart_btn.dart';
 import 'package:e_commerce/widgets/products/product_details.dart';
 import 'package:e_commerce/widgets/subtitle_text.dart'; // Alt başlık metnini gösteren bileşen dosyası.
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart'; // Görsel için animasyonlu yükleme efektleri sağlayan paket.
@@ -59,9 +60,9 @@ class TopProductWidget extends StatelessWidget {
                     child: Row(
                       children: [
                         IconButton(
-                            onPressed: () {},
-                            icon: const Icon(
-                                IconlyBold.heart)), // Kalp simgesi ikonu.
+                          onPressed: () {},
+                          icon: HeartButtonWidget(size: 23),
+                        ), // Kalp simgesi ikonu.
                         IconButton(
                             onPressed: () {},
                             icon: const Icon(
