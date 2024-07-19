@@ -1,17 +1,23 @@
+import 'package:dynamic_height_grid_view/dynamic_height_grid_view.dart';
+import 'package:e_commerce/providers/viewed_recently_providers.dart';
 import 'package:e_commerce/screens/cart/cart_widget.dart';
 import 'package:e_commerce/screens/cart/empty_bag.dart';
+import 'package:e_commerce/widgets/products/product_widget.dart';
 import 'package:e_commerce/widgets/title_text.dart';
 import 'package:flutter/material.dart'; // Material Design bileşenlerini içeren Flutter kütüphanesi.
-import 'package:flutter/widgets.dart'; // Flutter bileşenleri için temel kütüphane.
+import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart'; // Flutter bileşenleri için temel kütüphane.
 
 class ViewedRecentlyScreen extends StatelessWidget {
   static const routName = "/ViewedRecentlyScreen";
   const ViewedRecentlyScreen({super.key});
-  final bool isEmpty = false;
+  final bool isEmpty = true;
 
   @override
   Widget build(BuildContext context) {
-    return isEmpty
+    final viewedProdProvider = Provider.of<ViewedProdProvider>(context);
+
+    return viewedProdProvider.getViewedProds.isEmpty
         ? Scaffold(
             appBar: AppBar(
               centerTitle: true,
@@ -34,14 +40,14 @@ class ViewedRecentlyScreen extends StatelessWidget {
               // Boş sepet durumunu gösteren bileşen.
               imagePath: 'images/search.png', // Resim dosyası yolu.
               title: 'Son Görüntülenenler Boş ', // Başlık metni.
-              subtitle: 'Son Görüntülenenler boş gibi', // Alt başlık metni.
+              subtitle:
+                  'Son Görüntülenenler boş görünüyor', // Alt başlık metni.
               buttonText: 'Shop Now', // Buton metni.
             ))
         : Scaffold(
-            // Sepet dolu ise gösterilecek ekran.
             appBar: AppBar(
-              centerTitle: true,
-              leading: IconButton(
+                centerTitle: true,
+                leading: IconButton(
                   onPressed: () {
                     if (Navigator.canPop(context)) {
                       Navigator.pop(context);
@@ -50,14 +56,26 @@ class ViewedRecentlyScreen extends StatelessWidget {
                   icon: const Icon(
                     Icons.arrow_back_ios,
                     size: 20,
-                  )),
-              title: const TitleTextWidget(
-                label: "Son Görüntülenenler",
-              ),
-            ),
-            body: ListView.builder(itemBuilder: (context, index) {
-              return const CardWidget(); // Sepet öğelerini gösteren bileşen.
-            }),
-          );
+                  ),
+                ),
+                title: TitleTextWidget(
+                    label:
+                        "Son Görüntülenenler (${viewedProdProvider.getViewedProds.length})")),
+            body: DynamicHeightGridView(
+              mainAxisSpacing: 12,
+              crossAxisSpacing: 12,
+              builder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ProductWidget(
+                    productId: viewedProdProvider.getViewedProds.values
+                        .toList()[index]
+                        .productId,
+                  ),
+                );
+              },
+              itemCount: viewedProdProvider.getViewedProds.length,
+              crossAxisCount: 2,
+            ));
   }
 }

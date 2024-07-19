@@ -1,10 +1,12 @@
+import 'package:e_commerce/providers/cart_provider.dart';
 import 'package:e_commerce/screens/cart/bottom_checkout.dart';
 import 'package:e_commerce/widgets/app_name_text.dart';
 import 'package:e_commerce/screens/cart/cart_widget.dart';
 import 'package:e_commerce/screens/cart/empty_bag.dart';
 import 'package:e_commerce/widgets/title_text.dart';
 import 'package:flutter/material.dart'; // Material Design bileşenlerini içeren Flutter kütüphanesi.
-import 'package:flutter/widgets.dart'; // Flutter bileşenleri için temel kütüphane.
+import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart'; // Flutter bileşenleri için temel kütüphane.
 
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
@@ -12,41 +14,47 @@ class CartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return isEmpty
+    final cartProvider = Provider.of<CartProvider>(context);
+
+    return cartProvider.getCartItems.isEmpty
         ? Scaffold(
-            // Sepet boş ise gösterilecek ekran.
             body: EmptyBagWidget(
-            // Boş sepet durumunu gösteren bileşen.
-            imagePath: 'images/bag/card2.png', // Resim dosyası yolu.
-            title: 'Sepetiniz Boş ', // Başlık metni.
-            subtitle: 'Sepetiniz boş gibi', // Alt başlık metni.
-            buttonText: 'Shop Now', // Buton metni.
+            imagePath: 'images/bag/card2.png',
+            title: 'Sepetiniz Boş ',
+            subtitle: 'Sepetiniz boş görünüyor',
+            buttonText: 'Shop Now',
           ))
         : Scaffold(
-            // Sepet dolu ise gösterilecek ekran.
-            bottomSheet:
-                CartBottomSheetWidget(), // Sepet altında ödeme yapma bileşeni.
+            bottomSheet: CartBottomSheetWidget(),
             appBar: AppBar(
-              // AppBar bileşeni.
               leading: Padding(
-                // Sol taraftaki bileşenin kenar boşluklarını ayarlar.
                 padding: const EdgeInsets.all(8.0),
-                child: Image.asset(
-                    'images/bag/bag.png'), // AppBar içindeki resim bileşeni.
+                child: Image.asset('images/bag/bag.png'),
               ),
-              title: const TitleTextWidget(
-                  label: "Sepet (7)"), // Başlık metnini gösteren bileşen.
+              title: TitleTextWidget(
+                  label: "Sepet (${cartProvider.getCartItems.length})"),
               actions: [
                 IconButton(
-                    onPressed: () {},
-                    icon:
-                        const Icon(Icons.delete_forever_rounded, // Silme ikonu.
-                            color: Colors.red)) // İkon rengi.
+                    onPressed: () {
+                      cartProvider.clearLocalCart();
+                    },
+                    icon: const Icon(Icons.delete_forever_rounded,
+                        color: Colors.red))
               ],
             ),
-            body: ListView.builder(itemBuilder: (context, index) {
-              return const CardWidget(); // Sepet öğelerini gösteren bileşen.
-            }),
-          );
+            body: Column(
+              children: [
+                Expanded(
+                    child: ListView.builder(
+                        itemCount: cartProvider.getCartItems.length,
+                        itemBuilder: (context, index) {
+                          return ChangeNotifierProvider.value(
+                            value: cartProvider.getCartItems.values
+                                .toList()[index],
+                            child: const CardWidget(),
+                          );
+                        }))
+              ],
+            ));
   }
 }

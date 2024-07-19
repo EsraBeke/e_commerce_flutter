@@ -1,8 +1,12 @@
+import 'package:dynamic_height_grid_view/dynamic_height_grid_view.dart';
+import 'package:e_commerce/providers/wishlist_provider.dart';
 import 'package:e_commerce/screens/cart/cart_widget.dart';
 import 'package:e_commerce/screens/cart/empty_bag.dart';
+import 'package:e_commerce/widgets/products/product_widget.dart';
 import 'package:e_commerce/widgets/title_text.dart';
 import 'package:flutter/material.dart'; // Material Design bileşenlerini içeren Flutter kütüphanesi.
-import 'package:flutter/widgets.dart'; // Flutter bileşenleri için temel kütüphane.
+import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart'; // Flutter bileşenleri için temel kütüphane.
 
 class WishlistScreen extends StatelessWidget {
   static const routName = "/WishlistScreen";
@@ -12,7 +16,9 @@ class WishlistScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return isEmpty
+    final wishListProvider = Provider.of<WishlistProvider>(context);
+
+    return wishListProvider.getWishLists.isEmpty
         ? Scaffold(
             appBar: AppBar(
               centerTitle: true,
@@ -39,10 +45,9 @@ class WishlistScreen extends StatelessWidget {
               buttonText: 'Shop Now', // Buton metni.
             ))
         : Scaffold(
-            // Sepet dolu ise gösterilecek ekran.
             appBar: AppBar(
-              centerTitle: true,
-              leading: IconButton(
+                centerTitle: true,
+                leading: IconButton(
                   onPressed: () {
                     if (Navigator.canPop(context)) {
                       Navigator.pop(context);
@@ -51,14 +56,26 @@ class WishlistScreen extends StatelessWidget {
                   icon: const Icon(
                     Icons.arrow_back_ios,
                     size: 20,
-                  )),
-              title: const TitleTextWidget(
-                label: "Favoriler",
-              ),
-            ),
-            body: ListView.builder(itemBuilder: (context, index) {
-              return const CardWidget(); // Sepet öğelerini gösteren bileşen.
-            }),
-          );
+                  ),
+                ),
+                title: TitleTextWidget(
+                    label:
+                        "Favoriler (${wishListProvider.getWishLists.length})")),
+            body: DynamicHeightGridView(
+              mainAxisSpacing: 12,
+              crossAxisSpacing: 12,
+              builder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ProductWidget(
+                    productId: wishListProvider.getWishLists.values
+                        .toList()[index]
+                        .productId,
+                  ),
+                );
+              },
+              itemCount: wishListProvider.getWishLists.length,
+              crossAxisCount: 2,
+            ));
   }
 }

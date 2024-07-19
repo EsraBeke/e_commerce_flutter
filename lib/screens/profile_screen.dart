@@ -3,6 +3,7 @@ import 'package:e_commerce/screens/init_screen/wishList.dart';
 import 'package:e_commerce/services/assets_manager.dart';
 import 'package:e_commerce/services/myapp_functions.dart';
 import 'package:e_commerce/widgets/app_name_text.dart';
+import 'package:e_commerce/widgets/order/order_screen.dart';
 import 'package:e_commerce/widgets/subtitle_text.dart';
 import 'package:e_commerce/widgets/title_text.dart';
 import 'package:flutter/cupertino.dart';
@@ -111,7 +112,9 @@ class ProfileScreen extends StatelessWidget {
                 CustomListTile(
                     imagePath: 'images/bag/2.png',
                     text: "Tüm Siparişler",
-                    function: () {}),
+                    function: () {
+                      Navigator.pushNamed(context, OrderScreen.routName);
+                    }),
                 CustomListTile(
                     imagePath: 'images/bag/1.png',
                     text: "Favoriler",

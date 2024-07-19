@@ -1,5 +1,6 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:e_commerce/constans/app_constans.dart';
+import 'package:e_commerce/providers/product_provider.dart';
 import 'package:e_commerce/providers/theme_provider.dart';
 
 import 'package:e_commerce/widgets/app_name_text.dart';
@@ -18,6 +19,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final productsProvider = Provider.of<ProductProvider>(context);
     final themeProvider = Provider.of<ThemeProvider>(
         context); // Tema sağlayıcısını kullanarak temayı alır.
     final ScrollController _scrollController =
@@ -74,15 +76,17 @@ class HomeScreen extends StatelessWidget {
                 const TitleTextWidget(
                     label: "Popüler ürünler"), // Başlık bileşeni.
                 SizedBox(
-                    height: size.height * 0.2,
-                    child: ListView.builder(
-                        // Yatay olarak en popüler ürünleri göstermek için bir ListView oluşturur.
-                        scrollDirection: Axis.horizontal,
-                        itemCount: 10,
-                        physics: AlwaysScrollableScrollPhysics(),
-                        itemBuilder: (context, index) {
-                          return TopProductWidget(); // En popüler ürün bileşeni.
-                        })),
+                  height: size.height * 0.2,
+                  child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: productsProvider.getProducts.length,
+                      itemBuilder: (context, index) {
+                        return ChangeNotifierProvider.value(
+                          value: productsProvider.getProducts[index],
+                          child: const TopProductWidget(),
+                        );
+                      }),
+                ),
                 const TitleTextWidget(label: "Kategoriler"), // Başlık bileşeni.
                 const SizedBox(
                   height: 15.0,
